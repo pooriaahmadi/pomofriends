@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Your Account - Pomofriends</title>
+    <style>
+      /* Reset default styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f8;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+
+      /* Header styles */
+      header {
+        width: 100%;
+        background-color: #4b72fa;
+        color: #fff;
+        text-align: center;
+        padding: 30px 0;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+      }
+
+      header p {
+        font-size: 1.2rem;
+      }
+
+      header a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 1rem;
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: #6c8df7;
+        margin-top: 15px;
+      }
+      /* Account form container */
+      #add-account {
+        width: 90%;
+        max-width: 600px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 30px;
+      }
+
+      #add-account h2 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #4b72fa;
+      }
+
+      #add-account form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+        color: #333;
+      }
+
+      input {
+        font-size: 1rem;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        transition: border 0.3s ease;
+      }
+
+      input:focus {
+        border-color: #4b72fa;
+        outline: none;
+      }
+
+      .submit-button {
+        padding: 12px;
+        background-color: #4b72fa;
+        color: white;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .submit-button:hover {
+        background-color: #3a5bdc;
+      }
+
+      #add-account p {
+        color: red;
+        font-size: 0.9rem;
+        text-align: center;
+      }
+
+      /* Footer styles */
+      footer {
+        margin-top: auto;
+        padding: 10px 0;
+        width: 100%;
+        background-color: #4b72fa;
+        color: #ffffff;
+        text-align: center;
+        font-size: 0.9rem;
+      }
+      .submit-button {
+        padding: 12px 20px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: white;
+        background: linear-gradient(135deg, #4b72fa, #6a8efb);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        transition: background 0.3s ease, transform 0.2s ease;
+      }
+
+      .submit-button:hover {
+        background: linear-gradient(135deg, #3a5bdc, #5979eb);
+        transform: translateY(-2px);
+      }
+
+      .submit-button:active {
+        background: linear-gradient(135deg, #4b72fa, #6a8efb);
+        transform: translateY(1px);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Pomofriends</h1>
+      <p>Add your Pomofocus account</p>
+      <a href="/">Home</a>
+    </header>
+
+    <section id="add-account">
+      <h2>Enter Your Account Details</h2>
+      <form id="account-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required />
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+
+        <button class="submit-button" type="submit">Add Account</button>
+      </form>
+      <p id="error-message" style="color: red"></p>
+    </section>
+
+    <footer>
+      <p>Powered by Pomofocus and friends' dedication to learning.</p>
+    </footer>
+  </body>
+  <script>
+    document
+      .getElementById("account-form")
+      .addEventListener("submit", async function (event) {
+        event.preventDefault(); // Prevent default form submission
+        // Get the values from the form
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        // Simple validation
+        if (!username || !password) {
+          document.getElementById("error-message").textContent =
+            "Please enter both username and password.";
+          return;
+        }
+
+        // Send a POST request to the same page
+        try {
+          const response = await fetch(window.location.href, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+          });
+
+          if (response.ok) {
+            // Successfully added the account
+            alert("Account successfully added!");
+            document.getElementById("account-form").reset();
+            document.getElementById("error-message").textContent = "";
+
+            // Optionally, redirect to the main page or another page
+            window.location.href = "/";
+          } else {
+            // Handle server errors
+            document.getElementById("error-message").textContent =
+              "Failed to add account. Please try again.";
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          document.getElementById("error-message").textContent =
+            "An error occurred. Please try again later.";
+        }
+      });
+  </script>
+</html>

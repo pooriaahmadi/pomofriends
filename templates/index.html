@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pomofriends</title>
+    <style>
+      /* Reset some default browser styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f8;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+
+      /* Header styles */
+      header {
+        width: 100%;
+        background-color: #4b72fa;
+        color: #fff;
+        text-align: center;
+        padding: 20px 0;
+        margin-bottom: 20px;
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+      }
+
+      header p {
+        font-size: 1.2rem;
+      }
+
+      header a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 1rem;
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: #6c8df7;
+        margin-top: 15px;
+      }
+
+      /* Leaderboard section */
+      #leaderboard {
+        width: 90%;
+        max-width: 800px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+      }
+
+      #leaderboard h2 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        color: #4b72fa;
+        text-align: center;
+      }
+
+      .timeframe {
+        margin-bottom: 20px;
+      }
+
+      .timeframe h3 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+        color: #4b72fa;
+        text-align: center;
+      }
+
+      /* Leaderboard list */
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      .entry {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #f9fbfd;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      .entry:hover {
+        background-color: #e9f1ff;
+      }
+
+      .profile-pic {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 15px;
+      }
+
+      .name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+        flex-grow: 1;
+      }
+
+      .hours {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #4b72fa;
+      }
+
+      /* Footer styles */
+      footer {
+        margin-top: auto;
+        padding: 10px 0;
+        width: 100%;
+        background-color: #4b72fa;
+        color: #ffffff;
+        text-align: center;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Pomofriends</h1>
+      <p>Your study companion leaderboard</p>
+      <a href="/add_account">Add account</a>
+    </header>
+
+    <section id="leaderboard">
+      <h2>Leaderboard</h2>
+      <div class="timeframe">
+        <h3>Top Studied - Past 2 Days</h3>
+        <ul id="top-2-days">
+          {% for user in past_two_days %}
+          <li class="entry">
+            <img
+              src="{{user[0].picture}}"
+              alt="Profile picture of {{user[0].name}}"
+              class="profile-pic"
+            />
+            <span class="name">{{user[0].name}}</span>
+            <span class="hours">{{(user[1] / 60) | round(1)}} hours</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="timeframe">
+        <h3>Top Studied - Past 7 Days</h3>
+        <ul id="top-7-days">
+          {% for user in past_seven_days %}
+          <li class="entry">
+            <img
+              src="{{user[0].picture}}"
+              alt="Profile picture of {{user[0].name}}"
+              class="profile-pic"
+            />
+            <span class="name">{{user[0].name}}</span>
+            <span class="hours">{{(user[1] / 60) | round(1)}} hours</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      <p>Powered by Pomofocus and friends' dedication to learning.</p>
+    </footer>
+  </body>
+</html>
