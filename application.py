@@ -62,3 +62,7 @@ def add_account():
         return jsonify({"message": "Account added successfully."}), 200
 
     return render_template("add_account.html")
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5010)
