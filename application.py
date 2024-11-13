@@ -25,7 +25,7 @@ def scheduled_task():
 
 # Initialize the scheduler
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=scheduled_task, trigger="interval", minutes=30)
+scheduler.add_job(func=scheduled_task, trigger="interval", minutes=60)
 scheduler.start()
 atexit.register(lambda: scheduler.shutdown())
 
