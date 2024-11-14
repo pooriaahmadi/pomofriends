@@ -1,6 +1,5 @@
-import sqlite3
 from database import connection
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class Activity:
@@ -11,7 +10,7 @@ class Activity:
         self.task_name = task_name
         self.minutes_spent = minutes_spent
         self.user_id = user_id
-        self.created = datetime.fromisoformat(created.replace("Z", "+00:00"))
+        self.created = datetime.now(timezone.utc)
 
         self.add_to_database()
 
