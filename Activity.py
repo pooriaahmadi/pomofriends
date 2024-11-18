@@ -10,7 +10,7 @@ class Activity:
         self.task_name = task_name
         self.minutes_spent = minutes_spent
         self.user_id = user_id
-        self.created = datetime.fromisoformat(created)
+        self.created = datetime.fromisoformat(created.rstrip("Z"))
 
         self.add_to_database()
 
