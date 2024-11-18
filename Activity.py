@@ -10,7 +10,7 @@ class Activity:
         self.task_name = task_name
         self.minutes_spent = minutes_spent
         self.user_id = user_id
-        self.created = datetime.now(timezone.utc)
+        self.created = datetime.fromisoformat(created)
 
         self.add_to_database()
 
@@ -22,6 +22,8 @@ class Activity:
         existing_activity = cursor.fetchone()
         if existing_activity:
             return
+
+        self.created = datetime.now(timezone.utc)
         cursor.execute(
             "INSERT INTO activities VALUES (?, ?, ?, ?, ?)",
             (
