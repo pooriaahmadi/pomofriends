@@ -1,5 +1,6 @@
 from database import connection
 from datetime import datetime, timezone
+from dateutil.parser import isoparse
 
 
 class Activity:
@@ -10,7 +11,7 @@ class Activity:
         self.task_name = task_name
         self.minutes_spent = minutes_spent
         self.user_id = user_id
-        self.created = datetime.fromisoformat(created)
+        self.created = isoparse(created)
 
         self.add_to_database()
 
