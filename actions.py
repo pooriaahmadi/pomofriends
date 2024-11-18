@@ -22,8 +22,6 @@ def get_leaderboard(users: List[User], time_frame_days=2) -> list:
         # Filter out the activities that are not from today
         today = datetime.now(timezone.utc)
         day_limit = today - timedelta(days=time_frame_days)
-        for activity in activities:
-            print(activity.created.date())
         activities = [
             activity for activity in activities if activity.created >= day_limit
         ]
