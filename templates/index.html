@@ -175,6 +175,25 @@
       </div>
     </section>
 
+    <section id="leaderboard" style="margin-top: 40px">
+      <h2>Streak</h2>
+      <div class="timeframe">
+        <ul id="current-streak">
+          {% for user in current_streak %}
+          <li class="entry">
+            <img
+              src="{{user.picture}}"
+              alt="Profile picture of {{user.name}}"
+              class="profile-pic"
+            />
+            <span class="name">{{user.name}}</span>
+            <span class="hours">{{user.streak}} days 🔥</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </section>
+
     <footer>
       <p>Powered by Pomofocus and friends' dedication to learning.</p>
     </footer>

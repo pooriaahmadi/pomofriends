@@ -84,10 +84,69 @@ class User:
         )
 
         data = response.json()
-
         return User(
             data["_id"], data["name"], data["picture"], data["dayStreak"], token
         )
+
+    def get_daily_work_minutes(self):
+        response = requests.get(
+            "https://pomofocus.io/api/daily-work-minutes?todayStr=18-Nov-2024&daysBefore=7&backCnt=0",
+            headers={"Content-Type": "application/json", "Authorization": self.token},
+        )
+        data = response.json()
+        """
+        Response:
+        {
+            "reportsResult": [
+                {
+                    "dateStr": "12-Nov-2024",
+                    "projectName": "",
+                    "minutes": 168.49
+                },
+                {
+                    "dateStr": "16-Nov-2024",
+                    "projectName": "",
+                    "minutes": 30.02
+                },
+                {
+                    "dateStr": "13-Nov-2024",
+                    "projectName": "",
+                    "minutes": 240.1
+                },
+                {
+                    "dateStr": "14-Nov-2024",
+                    "projectName": "",
+                    "minutes": 82.77000000000001
+                },
+                {
+                    "dateStr": "17-Nov-2024",
+                    "projectName": "",
+                    "minutes": 100.66
+                }
+            ],
+            "dateDigitStart": "20241111",
+            "dateDigitEnd": "20241118"
+        }
+        """
+
+        ordered_list = sorted(
+            data["reportsResult"], key=lambda x: int(x["dateStr"].split("-")[0])
+        )
+
+        consecutive_days = -1
+        last_day = None
+        for report in ordered_list:
+            if last_day is None:
+                last_day = int(report["dateStr"].split("-")[0])
+                consecutive_days += 1
+            else:
+                if int(report["dateStr"].split("-")[0]) == last_day + 1:
+                    consecutive_days += 1
+                    last_day += 1
+
+        self.streak = consecutive_days
+        self.sync_with_database()
+        return data["reportsResult"]
 
     def get_activities_from_database(self) -> List[Activity]:
         cursor = connection.cursor()
@@ -113,6 +172,7 @@ class User:
                 )
             )
 
+        self.get_daily_work_minutes()
         return output
 
     def add_credentials(email: str, password: str) -> Optional[User]:

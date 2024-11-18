@@ -30,3 +30,15 @@ def get_leaderboard(users: List[User], time_frame_days=2) -> list:
         tmp.append([user, total_minutes])
 
     return sorted(tmp, key=lambda x: x[1], reverse=True)
+
+
+def get_streak(users: List[User]) -> list:
+    """
+    Get the streak for today. based off of consecutive days studied.
+
+    Args:
+        users (List[User]): The list of users to get the streak for.
+    Returns:
+        List[User]: The list of users sorted by their streak.
+    """
+    return sorted(users, key=lambda x: x.streak, reverse=True)

@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from dotenv import load_dotenv
 from database import initialize
 from User import User
-from actions import get_leaderboard
+from actions import get_leaderboard, get_streak
 from apscheduler.schedulers.background import BackgroundScheduler
 import atexit
 
@@ -13,7 +13,6 @@ initialize()
 users = User.get_all_users()
 for user in users:
     user.daily_report()
-
 
 app = Flask(__name__)
 
@@ -34,9 +33,13 @@ atexit.register(lambda: scheduler.shutdown())
 def landing_page():
     past_two_days = map(lambda x: [x[0].get_dict(), x[1]], get_leaderboard(users, 2))
     past_seven_days = map(lambda x: [x[0].get_dict(), x[1]], get_leaderboard(users, 7))
+    current_streak = get_streak(users)
 
     return render_template(
-        "index.html", past_two_days=past_two_days, past_seven_days=past_seven_days
+        "index.html",
+        past_two_days=past_two_days,
+        past_seven_days=past_seven_days,
+        current_streak=current_streak,
     )
 
 
