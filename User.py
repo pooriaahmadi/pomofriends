@@ -133,7 +133,7 @@ class User:
             data["reportsResult"], key=lambda x: int(x["dateStr"].split("-")[0])
         )
 
-        consecutive_days = -1
+        consecutive_days = 0
         last_day = None
         for report in ordered_list:
             if last_day is None:
