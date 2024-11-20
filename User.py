@@ -94,14 +94,24 @@ class User:
 
         consecutive_days = 0
         last_day = None
+        day_minutes = 0
         for activity in activities:
             if last_day is None:
                 last_day = activity.created.day
+                day_minutes = activity.minutes_spent
                 consecutive_days += 1
             else:
-                if last_day == activity.created.day - 1:
-                    consecutive_days += 1
-                    last_day = activity.created.day
+                if last_day == activity.created.day:
+                    day_minutes += activity.minutes_spent
+                    continue
+                if last_day == activity.created.day + 1:
+                    if day_minutes >= 20:
+                        consecutive_days += 1
+                        last_day = activity.created.day
+                    else:
+                        consecutive_days = 1
+                        last_day = activity.created.day
+                    day_minutes = activity.minutes_spent
 
         self.streak = consecutive_days
         self.sync_with_database()
