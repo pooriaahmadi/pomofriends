@@ -103,14 +103,17 @@ class User:
             else:
                 if last_day == activity.created.day:
                     day_minutes += activity.minutes_spent
+                    print(f"Same day ({last_day}): {day_minutes}")
                     continue
                 if last_day == activity.created.day + 1:
-                    if day_minutes >= 20:
+                    if day_minutes >= 25:
                         consecutive_days += 1
                         last_day = activity.created.day
+                        print(f"Consecutive day ({last_day}): {day_minutes}")
                     else:
-                        consecutive_days = 1
                         last_day = activity.created.day
+                        print(f"Non-consecutive day ({last_day}): {day_minutes}")
+                        break
                     day_minutes = activity.minutes_spent
 
         self.streak = consecutive_days
